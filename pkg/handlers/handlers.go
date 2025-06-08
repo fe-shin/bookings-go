@@ -17,15 +17,10 @@ type Repository struct {
 var Repo *Repository
 
 // CreateRepository creates a repository and then sets the fields inside of it
-func CreateRepository(appConfig *config.AppConfig) *Repository {
-	return &Repository{
+func CreateRepository(appConfig *config.AppConfig) {
+	Repo = &Repository{
 		App: appConfig,
 	}
-}
-
-// CreateHandlers sets the repository value
-func CreateHandlers(repo *Repository) {
-	Repo = repo
 }
 
 // HomePage is the handler for the index page

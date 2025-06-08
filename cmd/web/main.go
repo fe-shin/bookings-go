@@ -42,8 +42,7 @@ func main() {
 
 	// create repository and handlers by sending app config, and repository
 	// set the app config for render package
-	repo := handlers.CreateRepository(&app)
-	handlers.CreateHandlers(repo)
+	handlers.CreateRepository(&app)
 	render.CreateTemplates(&app)
 
 	// Serving the routes
