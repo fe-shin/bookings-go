@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/fe-shin/bookings-go/pkg/config"
@@ -29,7 +30,7 @@ func (repo *Repository) HomePage(w http.ResponseWriter, r *http.Request) {
 
 	repo.App.Session.Put(r.Context(), "remote_ip", remoteIP)
 
-	render.RenderHtmlTemplate(w, "home.page.tmpl", &models.TemplateData{})
+	render.RenderHtmlTemplate(w, r, "home.page.tmpl", &models.TemplateData{})
 }
 
 // AboutPage is the handler for the about page
@@ -40,7 +41,7 @@ func (repo *Repository) AboutPage(w http.ResponseWriter, r *http.Request) {
 	remoteIP := repo.App.Session.GetString(r.Context(), "remote_ip")
 	stringMap["remote_ip"] = remoteIP
 
-	render.RenderHtmlTemplate(w, "about.page.tmpl", &models.TemplateData{
+	render.RenderHtmlTemplate(w, r, "about.page.tmpl", &models.TemplateData{
 		StringMap: stringMap,
 	})
 }
@@ -53,7 +54,7 @@ func (repo *Repository) ContactPage(w http.ResponseWriter, r *http.Request) {
 	remoteIP := repo.App.Session.GetString(r.Context(), "remote_ip")
 	stringMap["remote_ip"] = remoteIP
 
-	render.RenderHtmlTemplate(w, "contact.page.tmpl", &models.TemplateData{
+	render.RenderHtmlTemplate(w, r, "contact.page.tmpl", &models.TemplateData{
 		StringMap: stringMap,
 	})
 }
@@ -66,7 +67,7 @@ func (repo *Repository) GeneralsPage(w http.ResponseWriter, r *http.Request) {
 	remoteIP := repo.App.Session.GetString(r.Context(), "remote_ip")
 	stringMap["remote_ip"] = remoteIP
 
-	render.RenderHtmlTemplate(w, "generals.page.tmpl", &models.TemplateData{
+	render.RenderHtmlTemplate(w, r, "generals.page.tmpl", &models.TemplateData{
 		StringMap: stringMap,
 	})
 }
@@ -79,7 +80,7 @@ func (repo *Repository) MajorsPage(w http.ResponseWriter, r *http.Request) {
 	remoteIP := repo.App.Session.GetString(r.Context(), "remote_ip")
 	stringMap["remote_ip"] = remoteIP
 
-	render.RenderHtmlTemplate(w, "majors.page.tmpl", &models.TemplateData{
+	render.RenderHtmlTemplate(w, r, "majors.page.tmpl", &models.TemplateData{
 		StringMap: stringMap,
 	})
 }
@@ -92,7 +93,7 @@ func (repo *Repository) MakeReservationPage(w http.ResponseWriter, r *http.Reque
 	remoteIP := repo.App.Session.GetString(r.Context(), "remote_ip")
 	stringMap["remote_ip"] = remoteIP
 
-	render.RenderHtmlTemplate(w, "make-reservation.page.tmpl", &models.TemplateData{
+	render.RenderHtmlTemplate(w, r, "make-reservation.page.tmpl", &models.TemplateData{
 		StringMap: stringMap,
 	})
 }
@@ -105,9 +106,16 @@ func (repo *Repository) AvailabilityPage(w http.ResponseWriter, r *http.Request)
 	remoteIP := repo.App.Session.GetString(r.Context(), "remote_ip")
 	stringMap["remote_ip"] = remoteIP
 
-	render.RenderHtmlTemplate(w, "search-availability.page.tmpl", &models.TemplateData{
+	render.RenderHtmlTemplate(w, r, "search-availability.page.tmpl", &models.TemplateData{
 		StringMap: stringMap,
 	})
+}
+
+func (repo *Repository) PostAvailabilityAction(w http.ResponseWriter, r *http.Request) {
+	start := r.Form.Get("start")
+	end := r.Form.Get("end")
+
+	w.Write([]byte(fmt.Sprintf("posted to availability, %s, %s", start, end)))
 }
 
 // Favicon is the handler for the favicon file

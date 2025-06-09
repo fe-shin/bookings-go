@@ -9,6 +9,7 @@ import (
 
 	"github.com/fe-shin/bookings-go/pkg/config"
 	"github.com/fe-shin/bookings-go/pkg/models"
+	"github.com/justinas/nosurf"
 )
 
 var app *config.AppConfig
@@ -17,8 +18,13 @@ func CreateTemplates(a *config.AppConfig) {
 	app = a
 }
 
+func addDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateData {
+	td.CSRFToken = nosurf.Token(r)
+	return td
+}
+
 // RenderHtmlTemplate parses and renders the html templates based on filename
-func RenderHtmlTemplate(w http.ResponseWriter, tmplFileName string, templateData *models.TemplateData) {
+func RenderHtmlTemplate(w http.ResponseWriter, r *http.Request, tmplFileName string, templateData *models.TemplateData) {
 	var templates map[string]*template.Template
 	var err error
 
@@ -41,6 +47,8 @@ func RenderHtmlTemplate(w http.ResponseWriter, tmplFileName string, templateData
 
 	// write the template to a buffer to see if template is correct
 	templateBuffer := new(bytes.Buffer)
+
+	templateData = addDefaultData(templateData, r)
 
 	err = template.Execute(templateBuffer, templateData)
 

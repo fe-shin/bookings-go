@@ -6,7 +6,7 @@ type TemplateData struct {
 	IntMap    map[string]int
 	FloatMap  map[string]float32
 	DataMap   map[string]any
-	CRSFToken string
+	CSRFToken string
 	Flash     string
 	Warning   string
 	Error     string
