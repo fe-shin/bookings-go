@@ -45,5 +45,70 @@ func (repo *Repository) AboutPage(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+// ContactPage is the handler for the contact page
+func (repo *Repository) ContactPage(w http.ResponseWriter, r *http.Request) {
+	stringMap := map[string]string{}
+	stringMap["test"] = "I'm a String Data from Template Data"
+
+	remoteIP := repo.App.Session.GetString(r.Context(), "remote_ip")
+	stringMap["remote_ip"] = remoteIP
+
+	render.RenderHtmlTemplate(w, "contact.page.tmpl", &models.TemplateData{
+		StringMap: stringMap,
+	})
+}
+
+// GeneralsPage is the handler for the generals quarters page
+func (repo *Repository) GeneralsPage(w http.ResponseWriter, r *http.Request) {
+	stringMap := map[string]string{}
+	stringMap["test"] = "I'm a String Data from Template Data"
+
+	remoteIP := repo.App.Session.GetString(r.Context(), "remote_ip")
+	stringMap["remote_ip"] = remoteIP
+
+	render.RenderHtmlTemplate(w, "generals.page.tmpl", &models.TemplateData{
+		StringMap: stringMap,
+	})
+}
+
+// MajorsPage is the handler for the majors suite page
+func (repo *Repository) MajorsPage(w http.ResponseWriter, r *http.Request) {
+	stringMap := map[string]string{}
+	stringMap["test"] = "I'm a String Data from Template Data"
+
+	remoteIP := repo.App.Session.GetString(r.Context(), "remote_ip")
+	stringMap["remote_ip"] = remoteIP
+
+	render.RenderHtmlTemplate(w, "majors.page.tmpl", &models.TemplateData{
+		StringMap: stringMap,
+	})
+}
+
+// MakeReservationPage is the handler for the reservation page
+func (repo *Repository) MakeReservationPage(w http.ResponseWriter, r *http.Request) {
+	stringMap := map[string]string{}
+	stringMap["test"] = "I'm a String Data from Template Data"
+
+	remoteIP := repo.App.Session.GetString(r.Context(), "remote_ip")
+	stringMap["remote_ip"] = remoteIP
+
+	render.RenderHtmlTemplate(w, "make-reservation.page.tmpl", &models.TemplateData{
+		StringMap: stringMap,
+	})
+}
+
+// AvailabilityPage is the handler for the majors availability page
+func (repo *Repository) AvailabilityPage(w http.ResponseWriter, r *http.Request) {
+	stringMap := map[string]string{}
+	stringMap["test"] = "I'm a String Data from Template Data"
+
+	remoteIP := repo.App.Session.GetString(r.Context(), "remote_ip")
+	stringMap["remote_ip"] = remoteIP
+
+	render.RenderHtmlTemplate(w, "search-availability.page.tmpl", &models.TemplateData{
+		StringMap: stringMap,
+	})
+}
+
 // Favicon is the handler for the favicon file
 func (repo *Repository) Favicon(w http.ResponseWriter, r *http.Request) {}

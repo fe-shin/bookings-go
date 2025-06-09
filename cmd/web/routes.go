@@ -17,9 +17,13 @@ func routes(app *config.AppConfig) http.Handler {
 	router.Use(noSurf)
 	router.Use(sessionLoad)
 
-	router.Get("/", http.HandlerFunc(handlers.Repo.HomePage))
-	router.Get("/about", http.HandlerFunc(handlers.Repo.AboutPage))
-	router.Get("/favicon.ico", http.HandlerFunc(handlers.Repo.Favicon))
+	router.Get("/", handlers.Repo.HomePage)
+	router.Get("/about", handlers.Repo.AboutPage)
+	router.Get("/contact", handlers.Repo.ContactPage)
+	router.Get("/generals-quarters", handlers.Repo.GeneralsPage)
+	router.Get("/majors-suite", handlers.Repo.MajorsPage)
+	router.Get("/make-reservation", handlers.Repo.MakeReservationPage)
+	router.Get("/search-availability", handlers.Repo.AvailabilityPage)
 
 	fileServer := http.FileServer(http.Dir("./static/"))
 	router.Handle("/static/*", http.StripPrefix("/static/", fileServer))
