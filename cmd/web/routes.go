@@ -21,5 +21,8 @@ func routes(app *config.AppConfig) http.Handler {
 	router.Get("/about", http.HandlerFunc(handlers.Repo.AboutPage))
 	router.Get("/favicon.ico", http.HandlerFunc(handlers.Repo.Favicon))
 
+	fileServer := http.FileServer(http.Dir("./static/"))
+	router.Handle("/static/*", http.StripPrefix("/static/", fileServer))
+
 	return router
 }
