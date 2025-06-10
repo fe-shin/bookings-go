@@ -1,7 +1,9 @@
 package handlers
 
 import (
+	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/fe-shin/bookings-go/pkg/config"
@@ -111,11 +113,33 @@ func (repo *Repository) AvailabilityPage(w http.ResponseWriter, r *http.Request)
 	})
 }
 
+// PostAvailabilityAction is the post handler for availability form post
 func (repo *Repository) PostAvailabilityAction(w http.ResponseWriter, r *http.Request) {
 	start := r.Form.Get("start")
 	end := r.Form.Get("end")
 
 	w.Write([]byte(fmt.Sprintf("posted to availability, %s, %s", start, end)))
+}
+
+type availabilityJSONResponse struct {
+	OK      bool   `json:"ok"`
+	Message string `json:"message"`
+}
+
+// AvailabilityJSON is the get handler for AJAX GET request with JSON response
+func (repo *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request) {
+	jsonResponse := availabilityJSONResponse{
+		OK:      true,
+		Message: "Available",
+	}
+
+	response, err := json.MarshalIndent(jsonResponse, "", "  ")
+	if err != nil {
+		log.Println(err)
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(response)
 }
 
 // Favicon is the handler for the favicon file
