@@ -73,6 +73,15 @@
         attention.custom({
             title: 'Choose your dates',
             msg: html,
+            callback: (result) => {
+                console.log("called", result)
+
+                fetch('/search-availability-json')
+                    .then((result) => result.json())
+                    .then((data) => {
+                        console.log(data)
+                    })
+            }
         });
     })
 </script>
