@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/alexedwards/scs/v2"
-	"github.com/fe-shin/bookings-go/pkg/config"
-	"github.com/fe-shin/bookings-go/pkg/handlers"
-	"github.com/fe-shin/bookings-go/pkg/render"
+	"github.com/fe-shin/bookings-go/internal/config"
+	"github.com/fe-shin/bookings-go/internal/handlers"
+	"github.com/fe-shin/bookings-go/internal/render"
 )
 
 const port string = ":8080"

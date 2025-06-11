@@ -6,9 +6,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/fe-shin/bookings-go/pkg/config"
-	"github.com/fe-shin/bookings-go/pkg/models"
-	"github.com/fe-shin/bookings-go/pkg/render"
+	"github.com/fe-shin/bookings-go/internal/config"
+	"github.com/fe-shin/bookings-go/internal/models"
+	"github.com/fe-shin/bookings-go/internal/render"
 )
 
 // Repository is the repository type
