@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/fe-shin/bookings-go/internal/config"
+	"github.com/fe-shin/bookings-go/internal/forms"
 	"github.com/fe-shin/bookings-go/internal/models"
 	"github.com/fe-shin/bookings-go/internal/render"
 )
@@ -89,15 +90,48 @@ func (repo *Repository) MajorsPage(w http.ResponseWriter, r *http.Request) {
 
 // MakeReservationPage is the handler for the reservation page
 func (repo *Repository) MakeReservationPage(w http.ResponseWriter, r *http.Request) {
-	stringMap := map[string]string{}
-	stringMap["test"] = "I'm a String Data from Template Data"
+	reservation := models.Reservation{}
 
-	remoteIP := repo.App.Session.GetString(r.Context(), "remote_ip")
-	stringMap["remote_ip"] = remoteIP
+	data := make(map[string]any)
+	data["reservation"] = reservation
 
 	render.RenderHtmlTemplate(w, r, "make-reservation.page.tmpl", &models.TemplateData{
-		StringMap: stringMap,
+		Form:    forms.New(nil),
+		DataMap: data,
 	})
+}
+
+// PostMakeReservation handles the posting of a reservation
+func (repo *Repository) PostMakeReservation(w http.ResponseWriter, r *http.Request) {
+	err := r.ParseForm()
+
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	reservation := models.Reservation{
+		FirstName: r.Form.Get("first_name"),
+		LastName:  r.Form.Get("last_name"),
+		Phone:     r.Form.Get("phone"),
+		Email:     r.Form.Get("email"),
+	}
+
+	form := forms.New(r.PostForm)
+	form.Required("first_name", "last_name", "email")
+	form.MinLength("first_name", 3)
+
+	if !form.Valid() {
+		data := make(map[string]any)
+		data["reservation"] = reservation
+
+		render.RenderHtmlTemplate(w, r, "make-reservation.page.tmpl", &models.TemplateData{
+			Form:    form,
+			DataMap: data,
+		})
+
+		return
+	}
 }
 
 // AvailabilityPage is the handler for the majors availability page
