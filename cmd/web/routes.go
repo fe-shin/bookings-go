@@ -20,10 +20,14 @@ func routes(app *config.AppConfig) http.Handler {
 	router.Get("/", handlers.Repo.HomePage)
 	router.Get("/about", handlers.Repo.AboutPage)
 	router.Get("/contact", handlers.Repo.ContactPage)
+
 	router.Get("/generals-quarters", handlers.Repo.GeneralsPage)
 	router.Get("/majors-suite", handlers.Repo.MajorsPage)
+
 	router.Get("/make-reservation", handlers.Repo.MakeReservationPage)
 	router.Post("/make-reservation", handlers.Repo.PostMakeReservation)
+	router.Get("/reservation-summary", handlers.Repo.ReservationSummaryPage)
+
 	router.Get("/search-availability", handlers.Repo.AvailabilityPage)
 	router.Post("/search-availability", handlers.Repo.PostAvailabilityAction)
 	router.Post("/search-availability-json", handlers.Repo.AvailabilityJSON)

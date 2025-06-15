@@ -133,6 +133,10 @@ func (repo *Repository) PostMakeReservation(w http.ResponseWriter, r *http.Reque
 
 		return
 	}
+
+	repo.App.Session.Put(r.Context(), "reservation", reservation)
+
+	http.Redirect(w, r, "/reservation-summary", http.StatusSeeOther)
 }
 
 // AvailabilityPage is the handler for the majors availability page
@@ -175,6 +179,26 @@ func (repo *Repository) AvailabilityJSON(w http.ResponseWriter, r *http.Request)
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(response)
+}
+
+func (repo *Repository) ReservationSummaryPage(w http.ResponseWriter, r *http.Request) {
+	reservation, ok := repo.App.Session.Get(r.Context(), "reservation").(models.Reservation)
+
+	if !ok {
+		log.Println("Cannot get item from the session")
+		repo.App.Session.Put(r.Context(), "error", "Can't get reservation from the session.")
+		http.Redirect(w, r, "/", http.StatusTemporaryRedirect)
+		return
+	}
+
+	repo.App.Session.Remove(r.Context(), "reservation")
+
+	data := make(map[string]any)
+	data["reservation"] = reservation
+
+	render.RenderHtmlTemplate(w, r, "reservation-summary.page.tmpl", &models.TemplateData{
+		DataMap: data,
+	})
 }
 
 // Favicon is the handler for the favicon file
