@@ -21,6 +21,25 @@ var session *scs.SessionManager
 
 // main function runs the program
 func main() {
+	err := run()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Serving the routes
+	fmt.Println("Serving and Listening on", port)
+
+	server := &http.Server{
+		Addr:    port,
+		Handler: routes(&app),
+	}
+
+	err = server.ListenAndServe()
+	log.Fatal(err)
+}
+
+func run() error {
 	// what's in the session
 	gob.Register(models.Reservation{})
 
@@ -39,6 +58,7 @@ func main() {
 
 	if err != nil {
 		log.Fatal(err)
+		return err
 	}
 
 	app.TemplateCache = tc
@@ -49,14 +69,5 @@ func main() {
 	handlers.CreateRepository(&app)
 	render.CreateTemplates(&app)
 
-	// Serving the routes
-	fmt.Println("Serving and Listening on", port)
-
-	server := &http.Server{
-		Addr:    port,
-		Handler: routes(&app),
-	}
-
-	err = server.ListenAndServe()
-	log.Fatal(err)
+	return nil
 }
